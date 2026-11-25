@@ -1,0 +1,83 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "map-violation-monitor"
+version = "0.1.0"
+description = "MAP monitoring for brands: every seller advertising your products below your Minimum Advertised Price on Amazon, Google Shopping, eBay and idealo, with Slack, Teams, Discord or webhook alerts, a Google Sheets evidence log and a weekly email report, on a GitHub Actions schedule."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [{ name = "ScrapeUnblocker" }]
+keywords = [
+    "map-monitoring",
+    "minimum-advertised-price",
+    "map-violation",
+    "price-monitoring",
+    "brand-protection",
+    "reseller-monitoring",
+    "amazon-sellers",
+    "google-shopping",
+    "ebay",
+    "idealo",
+    "google-sheets",
+    "slack",
+    "github-actions",
+    "scrapeunblocker",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business",
+    "Topic :: Office/Business :: Financial",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "scrapeunblocker>=0.22,<1",
+    "httpx>=0.27",
+    "PyYAML>=6.0",
+    "google-auth>=2.30",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+    "pre-commit>=3.5",
+]
+
+[project.urls]
+Homepage = "https://scrapeunblocker.com/?utm_source=github&utm_medium=integration&utm_campaign=example-repos"
+Documentation = "https://docs.scrapeunblocker.com/?utm_source=github&utm_medium=integration&utm_campaign=example-repos"
+Repository = "https://github.com/ScrapeUnblocker/map-violation-monitor"
+Issues = "https://github.com/ScrapeUnblocker/map-violation-monitor/issues"
+
+[project.scripts]
+map-violation-monitor = "map_violation_monitor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["state"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"

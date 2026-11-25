@@ -1,0 +1,30 @@
+# secrets
+.env
+*service-account*.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# tool caches
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# editors / OS
+.idea/
+.vscode/
+.DS_Store
+
+# run --save-answers output
+answers/
+
+# state/findings.json IS committed; never its temp copy
+state/*.tmp
+*.log

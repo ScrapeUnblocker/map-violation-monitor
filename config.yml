@@ -1,0 +1,63 @@
+# map-violation-monitor: the one file you edit.
+# Secrets (API key, webhook URLs, SMTP login, Google service account) are repository
+# secrets or a local .env file, never this file. See the README for every setting.
+
+# Your products, each with its Minimum Advertised Price and the places it is sold.
+# The two below are working examples: the MAP values are made up for the demo, so
+# replace them with your own price list.
+products:
+  - name: Sony WH-1000XM5 headphones (US)
+    sku: WH-1000XM5
+    map: 279.99            # example MAP, in the currency below
+    currency: USD
+    # Search results hold other products too. Every listing title must contain each
+    # match term (model numbers ignore case, spaces and dashes) and none of the
+    # exclude terms.
+    match: [WH-1000XM5]
+    exclude: [XM6, WF-1000XM5, earpads, ear pads, cushions]
+    amazon:
+      - asin: B09XS7JWHH
+        marketplace: amazon.com
+    google_shopping:
+      - query: Sony WH-1000XM5
+        country: us
+    ebay:
+      - keyword: Sony WH-1000XM5
+        marketplace: ebay.com
+
+  - name: Sony WH-1000XM5 headphones (DE)
+    sku: WH-1000XM5
+    map: 229.00            # example MAP
+    currency: EUR
+    idealo:
+      - product_id: 201949755   # the number in the idealo price comparison link
+        country: de
+
+rules:
+  tolerance_percent: 0.5     # prices less than 0.5% under MAP are not flagged (rounding)
+  floor_percent: 50          # prices under 50% of MAP are ignored: parts, accessories, wrong items
+  include_shipping: false    # compare the item price (most MAP policies) or price + shipping
+  realert_drop_percent: 3    # alert again when an open finding drops 3% further
+  resolve_after_days: 7      # eBay, Google Shopping: not seen below MAP for 7 days = back at MAP
+  exclude: []                # more title words to skip, on top of refurbished, used, open box, ...
+
+sellers:
+  # Never reported: your own store, and second-hand marketplaces MAP does not cover.
+  ignore: [Mercari, Poshmark, Whatnot, refurbed]
+  # Your authorized resellers: still reported, marked "authorized reseller".
+  authorized: []
+
+alerts:
+  to: [slack, teams, discord, webhook]   # each one is used when its secret is set
+  max_per_source: 8                       # sellers listed per product and source in one alert
+  back_at_map: false                      # also alert when a seller is back at MAP
+
+report:
+  day: monday        # the weekly MAP report goes out on the first run on or after this day
+  to: [email]        # slack, teams, discord, webhook and email work here too
+
+sheet:
+  enabled: true      # needs GOOGLE_SHEET_ID and GOOGLE_SERVICE_ACCOUNT_JSON
+  tab: Findings
+
+state: state/findings.json
